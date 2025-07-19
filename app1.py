@@ -70,23 +70,12 @@ def user_input(user_question):
     )
     answer = response["output_text"]
 
-    # Sentiment analysis using TextBlob
-    blob = TextBlob(answer)
-    polarity = blob.sentiment.polarity
-    if polarity > 0:
-        sentiment = "Positive"
-    elif polarity < 0:
-        sentiment = "Negative"
-    else:
-        sentiment = "Neutral"
-
-    # Save to session history
-    st.session_state.chat_history.append((user_question, f"{answer}\n\n🧠 **Predicted Emotion**: `{emotion}`"))
-    return answer, emotion, sentiment
+    
+    return answer
 
 def summarize_text(text):
     model = ChatGoogleGenerativeAI(model="gemini-2.0-flash")
-    prompt = f"Summarize the following Lok Sabha discussion or content in simple terms:\n\n{text}\n\nSummary:"
+    prompt = f"Summarize the following pdf :\n\n{text}\n\nSummary:"
     response = model.invoke(prompt)
     summary = response.content
 
@@ -94,7 +83,7 @@ def summarize_text(text):
     return summary
 
 def main():
-    st.header("Lok Sabha Debate Decoder")
+    st.header("Q&A RAG System")
 
     # Display chat history
     with st.container():
